@@ -8,6 +8,12 @@ Cli-chat. Try it out ~
 npm i cli-chat -g
 ```
 
+### Usage
+
+```
+cli-chat
+```
+
 ### License
 
 MIT
