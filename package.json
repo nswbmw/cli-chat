@@ -1,0 +1,37 @@
+{
+  "name": "cli-chat",
+  "version": "1.0.0",
+  "description": "Cli-chat. Try it out ~",
+  "main": "lib/cli-chat",
+  "bin": {
+    "cli-chat": "bin/cli-chat"
+  },
+  "keywords": [
+    "lan",
+    "cli",
+    "chat",
+    "rpc"
+  ],
+  "dependencies": {
+    "commander": "^2.9.0",
+    "dnode": "^1.2.2",
+    "editor": "^1.0.0",
+    "ip": "^1.1.0",
+    "username": "^1.0.1"
+  },
+  "author": {
+    "name": "nswbmw",
+    "email": "nswbmw1992@gmail.com"
+  },
+  "engines": {
+    "node": ">= 4"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nswbmw/cli-chat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nswbmw/cli-chat/issues"
+  }
+}

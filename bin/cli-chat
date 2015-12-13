@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+'use strict';
+ 
+const path = require('path');
+const readline = require('readline');
+
+const editor = require('editor');
+const program = require('commander');
+const username = require('username');
+
+const config = require('../config');
+const Chat = require('../lib/cli-chat');
+const pkg = require('../package.json');
+
+const chat = new Chat(config);
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+chat.start(msgObj => {
+  process.stdout.clearLine();
+  process.stdout.cursorTo(0);
+  console.log(config.indent + msgObj.name + ': ' + msgObj.msg);
+  rl.prompt();
+});
+
+program
+  .version(pkg.version)
+  .usage('[command]');
+
+program
+  .command('config')
+  .description('edit config')
+  .action(() => {
+    editor(path.join(__dirname, '../config.json'));
+  });
+
+program.parse(process.argv);
+
+if (process.argv.length === 2) {
+  const name = config.name || username.sync();
+
+  rl.write(null, {ctrl: true, name: 'l'});
+  process.stdout.clearLine();
+  console.log('\n\n\n');
+  rl.setPrompt(config.indent + name + ': ');
+  rl.prompt();
+ 
+  rl.on('line', (msg) => {
+    chat.send(msg);
+    rl.prompt();
+  });
+}
