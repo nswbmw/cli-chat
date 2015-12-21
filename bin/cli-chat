@@ -8,6 +8,7 @@ const readline = require('readline');
 const editor = require('editor');
 const program = require('commander');
 const username = require('username');
+const notifier = require('node-notifier');
 
 const config = require('../config');
 const Chat = require('../lib/cli-chat');
@@ -23,6 +24,10 @@ chat.start(msgObj => {
   process.stdout.clearLine();
   process.stdout.cursorTo(0);
   console.log(config.indent + msgObj.name + ': ' + msgObj.msg);
+  notifier.notify({
+    title: msgObj.name,
+    message: msgObj.msg
+  });
   rl.prompt();
 });
 
