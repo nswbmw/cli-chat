@@ -27,7 +27,6 @@ Usage: cli-chat [options]
     --port <port>          tcp port, default: 5004
     --lan <lan>            lan prefix, eg: '192.168.10.', default use `ip` module
     --username <username>  username
-    --color <color>        username color, see `chalk`, default: white
     --indent <indent>      indent, default: 20 space
     -h, --help             output usage information
 ```
