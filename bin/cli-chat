@@ -1,60 +1,60 @@
 #!/usr/bin/env node
 
-'use strict';
- 
-const path = require('path');
-const readline = require('readline');
+'use strict'
 
-const editor = require('editor');
-const program = require('commander');
-const username = require('username');
-const notifier = require('node-notifier');
+const readline = require('readline')
 
-const config = require('../config');
-const Chat = require('../lib/cli-chat');
-const pkg = require('../package.json');
+const ip = require('ip')
+const program = require('commander')
+const username = require('username')
 
-const chat = new Chat(config);
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-chat.start(msgObj => {
-  process.stdout.clearLine();
-  process.stdout.cursorTo(0);
-  console.log(config.indent + msgObj.name + ': ' + msgObj.msg);
-  notifier.notify({
-    title: msgObj.name,
-    message: msgObj.msg
-  });
-  rl.prompt();
-});
+const Chat = require('../lib/cli-chat')
+const pkg = require('../package.json')
 
 program
   .version(pkg.version)
-  .usage('[command]');
+  .option('--host <host>', 'hostname, default: \'\'')
+  .option('--port <port>', 'tcp port, default: 5004')
+  .option('--lan <lan>', 'lan prefix, eg: \'192.168.10.\', default use `ip` module')
+  .option('--username <username>', 'username, default use `username` module')
+  .option('--indent <indent>', 'indent, default: 20 space')
+  .parse(process.argv)
 
-program
-  .command('config')
-  .description('edit config')
-  .action(() => {
-    editor(path.join(__dirname, '../config.json'));
-  });
-
-program.parse(process.argv);
-
-if (process.argv.length === 2) {
-  const name = config.name || username.sync();
-
-  rl.write(null, {ctrl: true, name: 'l'});
-  process.stdout.clearLine();
-  console.log('\n\n\n');
-  rl.setPrompt(config.indent + name + ': ');
-  rl.prompt();
- 
-  rl.on('line', (msg) => {
-    chat.send(msg);
-    rl.prompt();
-  });
+const options = {
+  host: program.host || '',
+  port: +program.port || 5004,
+  lan: program.lan || ip.address().replace(/[^.]+$/, ''),
+  username: (program.username && program.username.trim()) || username.sync(),
+  indent: new Array(+program.indent || 20).join(' '),
+  ip: ip.address()
 }
+
+const chat = new Chat(options)
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+})
+
+chat.start(msgObj => {
+  process.stdout.clearLine()
+  process.stdout.cursorTo(0)
+  console.log(options.indent + msgObj.username + ': ' + msgObj.msg)
+  rl.prompt()
+})
+
+rl.once('SIGINT', () => {
+  chat.stop()
+  setTimeout(() => {
+    process.exit(0)
+  })
+})
+
+rl.write(null, {ctrl: true, name: 'l'})
+process.stdout.clearLine()
+console.log('\n\n\n')
+rl.setPrompt(options.indent + options.username + ': ')
+rl.prompt()
+rl.on('line', (msg) => {
+  chat.broadcast(msg)
+  rl.prompt()
+})

@@ -1,6 +1,6 @@
 {
   "name": "cli-chat",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Cli-chat. Try it out ~",
   "main": "lib/cli-chat",
   "bin": {
@@ -13,12 +13,10 @@
     "rpc"
   ],
   "dependencies": {
-    "commander": "^2.9.0",
-    "dnode": "^1.2.2",
-    "editor": "^1.0.0",
-    "ip": "^1.1.0",
-    "node-notifier": "^4.4.0",
-    "username": "^1.0.1"
+    "commander": "2.11.0",
+    "dnode": "1.2.2",
+    "ip": "1.1.5",
+    "username": "3.0.0"
   },
   "author": {
     "name": "nswbmw",
@@ -34,5 +32,13 @@
   },
   "bugs": {
     "url": "https://github.com/nswbmw/cli-chat/issues"
+  },
+  "devDependencies": {
+    "eslint": "4.5.0",
+    "eslint-config-standard": "10.2.1",
+    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-node": "5.1.1",
+    "eslint-plugin-promise": "3.5.0",
+    "eslint-plugin-standard": "3.0.1"
   }
 }
