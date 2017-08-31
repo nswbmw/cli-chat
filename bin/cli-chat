@@ -11,6 +11,9 @@ const username = require('username')
 const Chat = require('../lib/cli-chat')
 const pkg = require('../package.json')
 
+// ignore Windows error -> read ECONNRESET
+process.on('uncaughtException', () => {})
+
 program
   .version(pkg.version)
   .option('--host <host>', 'hostname, default: \'\'')
