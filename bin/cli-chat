@@ -11,37 +11,32 @@ const username = require('username')
 const Chat = require('../lib/cli-chat')
 const pkg = require('../package.json')
 
-// ignore Windows error -> read ECONNRESET
-process.on('uncaughtException', () => {})
-
 program
   .version(pkg.version)
-  .option('--host <host>', 'hostname, default: \'\'')
-  .option('--port <port>', 'tcp port, default: 5004')
-  .option('--lan <lan>', 'lan prefix, eg: \'192.168.10.\', default use `ip` module')
-  .option('--username <username>', 'username, default use `username` module')
+  .option('--port <port>', 'tcp port, default: 1234')
+  .option('--subnetMask <subnetMask>', 'subnetMask, default: \'255.255.255.0\'')
+  .option('--username <username>', 'username, default use current user')
   .option('--indent <indent>', 'indent, default: 20 space')
   .parse(process.argv)
 
-const options = {
-  host: program.host || '',
-  port: +program.port || 5004,
-  lan: program.lan || ip.address().replace(/[^.]+$/, ''),
+const config = {
+  ip: ip.address(),
+  port: +program.port || 1234,
+  subnetMask: program.subnetMask || '255.255.255.0',
   username: (program.username && program.username.trim()) || username.sync(),
-  indent: new Array(+program.indent || 20).join(' '),
-  ip: ip.address()
+  indent: new Array(+program.indent || 20).join(' ')
 }
 
-const chat = new Chat(options)
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 })
 
-chat.start(msgObj => {
+const chat = new Chat(config)
+chat.start(msgInfo => {
   process.stdout.clearLine()
   process.stdout.cursorTo(0)
-  console.log(options.indent + msgObj.username + ': ' + msgObj.msg)
+  console.log(`${config.indent}${msgInfo.username}: ${msgInfo.msg}`)
   rl.prompt()
 })
 
@@ -55,7 +50,7 @@ rl.once('SIGINT', () => {
 rl.write(null, {ctrl: true, name: 'l'})
 process.stdout.clearLine()
 console.log('\n\n\n')
-rl.setPrompt(options.indent + options.username + ': ')
+rl.setPrompt(`${config.indent}${config.username}: `)
 rl.prompt()
 rl.on('line', (msg) => {
   chat.broadcast(msg)

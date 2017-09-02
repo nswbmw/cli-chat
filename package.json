@@ -1,6 +1,6 @@
 {
   "name": "cli-chat",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "Cli-chat. Try it out ~",
   "main": "lib/cli-chat",
   "bin": {
@@ -14,7 +14,6 @@
   ],
   "dependencies": {
     "commander": "2.11.0",
-    "dnode": "1.2.2",
     "ip": "1.1.5",
     "username": "3.0.0"
   },
