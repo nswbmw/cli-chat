@@ -33,16 +33,19 @@ const rl = readline.createInterface({
 })
 
 const chat = new Chat(config)
-chat.start(msgInfo => {
+chat.start((err, msgInfo) => {
   process.stdout.clearLine()
   process.stdout.cursorTo(0)
-  console.log(`${config.indent}${msgInfo.username}: ${msgInfo.msg}`)
+  if (err) {
+    console.error(`${config.indent}${err.message}`)
+  } else {
+    console.log(`${config.indent}${msgInfo.username}: ${msgInfo.msg}`)
+  }
   rl.prompt()
 })
 
 rl.once('SIGINT', () => {
-  chat.stop()
-  setTimeout(() => {
+  chat.stop(() => {
     process.exit(0)
   })
 })
