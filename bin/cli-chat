@@ -37,7 +37,7 @@ chat.start((err, msgInfo) => {
   process.stdout.clearLine()
   process.stdout.cursorTo(0)
   if (err) {
-    console.error(`${config.indent}${err.message}`)
+    console.error(`${config.indent}${err}`)
   } else {
     console.log(`${config.indent}${msgInfo.username}: ${msgInfo.msg}`)
   }
