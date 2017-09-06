@@ -1,6 +1,6 @@
 {
   "name": "cli-chat",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "description": "Cli-chat. Try it out ~",
   "main": "lib/cli-chat",
   "bin": {

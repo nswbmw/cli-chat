@@ -26,7 +26,7 @@ Options:
 
   Options:
 
-    --port <port>              tcp port, default: 1234
+    --port <port>              udp port, default: 1234
     --subnetMask <subnetMask>  subnetMask, default: '255.255.255.0'
     --username <username>      username, default use current user
     --indent <indent>          indent, default: 20 space

@@ -13,7 +13,7 @@ const pkg = require('../package.json')
 
 program
   .version(pkg.version)
-  .option('--port <port>', 'tcp port, default: 1234')
+  .option('--port <port>', 'udp port, default: 1234')
   .option('--subnetMask <subnetMask>', 'subnetMask, default: \'255.255.255.0\'')
   .option('--username <username>', 'username, default use current user')
   .option('--indent <indent>', 'indent, default: 20 space')
